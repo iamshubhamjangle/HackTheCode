@@ -21,3 +21,24 @@ Redeclaring
 
 - var can be redeclared
 - let, const cannot be redeclared
+
+```js
+// Scoping
+function scopeExample() {
+  if (true) {
+    var x = 1;
+    let y = 2;
+    const z = 3;
+
+    console.log(x); // 1
+    console.log(y); // 2
+    console.log(z); // 3
+  }
+
+  console.log(x); // 1
+  console.log(y); // ReferenceError: y is not defined
+  console.log(z); // ReferenceError: z is not defined
+}
+
+scopeExample();
+```
