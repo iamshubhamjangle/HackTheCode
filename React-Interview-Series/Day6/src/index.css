@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+
+body {
+  text-align: center;
+  font-family: "Sora";
+}
+
+.App {
+  border: 2px solid #2659ff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+button {
+  padding: 10px 40px;
+  background-color: #2659ff;
+  border: none;
+  border-radius: 10px;
+  color: aliceblue;
+  font-weight: 600;
+  margin: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgb(29, 72, 212);
+}
+
+button:active {
+  scale: 95%;
+}

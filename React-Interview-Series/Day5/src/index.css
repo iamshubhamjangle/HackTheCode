@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+
+body {
+  font-family: "Sora";
+  min-height: 100vh;
+  margin: 2rem;
+  padding: 0;
+  background: #fafaf9;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  position: relative;
+  background-color: #26b8fc;
+  font-size: 14px;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 18px 60px;
+  border-radius: 20px;
+  box-shadow: 0 5px #1895cf;
+}
+
+button:hover {
+  box-shadow: 0 4px #1895cf;
+  top: 2px;
+}
+
+button:active {
+  box-shadow: none;
+  top: 6px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0px 30px 100px 0px rgba(17, 23, 41, 0.1);
+  width: min-content;
+  margin: 16px 0;
+}
+
+.card .img-container {
+  width: 336px;
+  height: 152px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.card h1 {
+  font-size: 1.25rem;
+  margin-top: 18px;
+  font-weight: 700;
+  color: #20293a;
+}
+
+.card p {
+  position: relative;
+  margin-top: 10px;
+  line-height: 1.5em;
+  color: #6c727f;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
