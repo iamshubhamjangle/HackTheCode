@@ -1,4 +1,4 @@
-Throttling ensures that a function is called at most once in a specified period. This is useful for events that can fire frequently, such as mouse movements. Below is a complete example that demonstrates how to use throttling to track mouse movement and draw dots on the screen at most once every 200 milliseconds.
+Throttling ensures that a function is called at most once in a specified period. This is useful for events that can fire frequently, such as mouse movements. Below is a complete example that demonstrates it.
 
 #### Following is common html, css for both variation given below
 
