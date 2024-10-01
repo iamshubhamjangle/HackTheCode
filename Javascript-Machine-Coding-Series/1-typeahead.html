@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: Helvetica, sans-serif;
+      }
+      input {
+        padding: 0.5rem;
+        width: 95%;
+        min-width: 400px;
+      }
+      .list-item {
+        border-bottom: 1px solid grey;
+        padding: 0.5rem;
+        width: 95%;
+        min-width: 400px;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="search-input" placeholder="Type to search..." />
+    <div id="result-container"></div>
+  </body>
+  <script>
+    const searchInput = document.getElementById("search-input");
+    const resultContainer = document.getElementById("result-container");
+
+    const sentences = [
+      "The quick brown fox jumps over the lazy dog.",
+      "A watched pot never boils.",
+      "Actions speak louder than words.",
+      "It doesn't sound like that will ever be on my travel list.",
+      "He had a hidden stash underneath the floorboards in the back room of the house.",
+      "Their argument could be heard across the parking lot.",
+      "Always bring cinnamon buns on a deep-sea diving expedition.",
+      "The clouds formed beautiful animals in the sky that eventually created a tornado to wreak havoc.",
+      "Fluffy pink unicorns are a popular status symbol among macho men.",
+      "After coating myself in vegetable oil I found my success rate skyrocketed.",
+      "The clock within this blog and the clock on my laptop are 1 hour different from each other.",
+      "There are few things better in life than a slice of pie.",
+      "Thigh-high in the water, the fisherman’s hope for dinner soon turned to despair.",
+    ];
+
+    const getResult = (e) => {
+      console.log("getResult: ", e.target.value);
+      const query = e.target?.value?.toLowerCase();
+      const newResult = sentences.filter((s) =>
+        s.toLowerCase().includes(query)
+      );
+
+      resultContainer.innerHTML = ""; // reset html children
+
+      newResult.forEach((res) => {
+        const ele = document.createElement("div");
+        ele.textContent = res;
+        ele.classList = "list-item";
+        resultContainer.appendChild(ele);
+      });
+    };
+
+    const debounce = (fn, delay = 500) => {
+      let timer = null;
+      return (...args) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          fn.call(this, ...args);
+        }, delay);
+      };
+    };
+
+    const debouncedSearch = debounce(getResult);
+
+    searchInput.addEventListener("input", debouncedSearch);
+  </script>
+</html>
