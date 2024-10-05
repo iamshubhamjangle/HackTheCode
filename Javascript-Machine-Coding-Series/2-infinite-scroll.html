@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite scroll</title>
+    <style>
+      .box {
+        height: 100px;
+        background-color: skyblue;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+      #trigger {
+        height: 100px;
+        background-color: rebeccapurple;
+        color: white;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content-area"></div>
+    <div id="trigger">Trigger</div>
+  </body>
+  <script>
+    const contentArea = document.getElementById("content-area");
+    const trigger = document.getElementById("trigger");
+
+    function createPostElement(value) {
+      const ele = document.createElement("div");
+      ele.textContent = value;
+      ele.classList = "box";
+      contentArea.appendChild(ele);
+    }
+
+    function fetchData() {
+      let i = 0;
+      while (i < 5) {
+        createPostElement(i++);
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (values) => {
+        console.log(values);
+        if (values[0].isIntersecting) {
+          fetchData();
+        }
+      },
+      {
+        // rootMargin: "900px",
+        threshold: 0.9, // trigger when div visibility is 90%
+      }
+    );
+
+    observer.observe(trigger);
+
+    fetchData();
+  </script>
+</html>
