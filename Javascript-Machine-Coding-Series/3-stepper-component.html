@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Step Progress</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      #steps-container {
+        position: relative;
+        width: 90vw;
+      }
+      #steps {
+        display: flex;
+        justify-content: space-between;
+        z-index: 1;
+      }
+      #progress {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 0%;
+        background-color: skyblue;
+        height: 8px;
+        z-index: -1;
+        transition: width 0.3s ease-in-out;
+      }
+      .btn {
+        padding: 0.5rem 1rem;
+        margin: 1rem;
+        cursor: pointer;
+      }
+      .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+      .step-item {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: skyblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        padding: 1rem;
+      }
+      #component-wrapper {
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Step Progress Component</h1>
+    <div id="steps-container">
+      <div id="steps"></div>
+      <div id="progress"></div>
+    </div>
+    <div id="component-wrapper"></div>
+    <div id="btn-wrapper">
+      <button class="btn" id="prev-btn" aria-label="Previous Step">Prev</button>
+      <button class="btn" id="next-btn" aria-label="Next Step">Next</button>
+    </div>
+
+    <script>
+      const DEBOUNCE_DELAY = 200;
+      const colors = ["red", "blue", "orange", "pink", "skyblue"];
+      let currentIdx = 0;
+
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const progressBar = document.getElementById("progress");
+      const stepsContainer = document.getElementById("steps");
+      const componentWrapper = document.getElementById("component-wrapper");
+
+      // Render the step indicators
+      function renderSteps() {
+        colors.forEach((_, index) => {
+          const stepItem = document.createElement("div");
+          stepItem.classList.add("step-item");
+          stepItem.textContent = index + 1;
+          stepsContainer.appendChild(stepItem);
+        });
+      }
+
+      // Update component view based on the current index
+      function updateComponent() {
+        // Clear previous content
+        componentWrapper.innerHTML = "";
+
+        // Create the current step element
+        const stepElement = document.createElement("div");
+        stepElement.style.backgroundColor = colors[currentIdx];
+        stepElement.style.width = "100%";
+        stepElement.style.height = "100%";
+        componentWrapper.appendChild(stepElement);
+      }
+
+      // Update progress bar width
+      function updateProgress() {
+        const progressPercentage = (100 / (colors.length - 1)) * currentIdx;
+        progressBar.style.width = `${progressPercentage}%`;
+      }
+
+      // Update button states
+      function updateButtonState() {
+        prevBtn.disabled = currentIdx === 0;
+        nextBtn.disabled = currentIdx === colors.length - 1;
+      }
+
+      // Debounce function for rapid clicks
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+      }
+
+      // Event listeners for navigation buttons
+      prevBtn.addEventListener(
+        "click",
+        debounce(() => {
+          if (currentIdx > 0) {
+            currentIdx--;
+            updateComponent();
+            updateProgress();
+            updateButtonState();
+          }
+        }, DEBOUNCE_DELAY)
+      );
+
+      nextBtn.addEventListener(
+        "click",
+        debounce(() => {
+          if (currentIdx < colors.length - 1) {
+            currentIdx++;
+            updateComponent();
+            updateProgress();
+            updateButtonState();
+          }
+        }, DEBOUNCE_DELAY)
+      );
+
+      // Initial render
+      function init() {
+        renderSteps();
+        updateComponent();
+        updateProgress();
+        updateButtonState();
+      }
+
+      init();
+    </script>
+  </body>
+</html>
