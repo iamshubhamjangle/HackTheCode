@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,100&display=swap"
+      rel="stylesheet"
+    />
+    <title>TODO</title>
+    <style>
+      body {
+        min-width: 350px;
+        max-width: 400px;
+        margin: 10rem auto;
+        background-color: rgb(71, 79, 87);
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      #todo-wrapper {
+        padding: 1rem;
+        margin: 0 0.5rem;
+        background-color: white;
+        border-radius: 10px;
+      }
+      .todo-item {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      .todo-item span {
+        flex-grow: 1;
+      }
+      #input-wrapper {
+        margin: 1rem 0;
+        display: flex;
+        gap: 10px;
+      }
+      input {
+        flex-grow: 1;
+        padding: 0.35rem 1rem;
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        background-color: cornflowerblue;
+        color: white;
+        font-weight: 700;
+        border: none;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+      }
+      button:hover {
+        background-color: rgb(55, 102, 191);
+      }
+      button:active {
+        scale: 0.9;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <div id="todo-wrapper">
+      <h2>TODO LIST</h2>
+      <div id="input-wrapper">
+        <input id="input" placeholder="Enter a title" />
+        <button id="btn-add-todo">Add</button>
+      </div>
+      <div id="list-wrapper"></div>
+    </div>
+  </body>
+  <script>
+    const input = document.getElementById("input");
+    const btnAddTodo = document.getElementById("btn-add-todo");
+    const listWrapper = document.getElementById("list-wrapper");
+    const todos = [];
+
+    function renderTodos() {
+      // clear the div
+      listWrapper.innerHTML = "";
+
+      // Render Array items
+      todos.forEach((todo, index) => {
+        const todoItem = document.createElement("div");
+        todoItem.classList.add("todo-item");
+
+        const doneBtn = document.createElement("button");
+        doneBtn.textContent = todo.completed ? "Undo" : "Done";
+
+        const todoTitle = document.createElement("span");
+        todoTitle.textContent = todo.title;
+        todoTitle.style.textDecoration = todo.completed ? "line-through" : "";
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+
+        todoItem.appendChild(doneBtn);
+        todoItem.appendChild(todoTitle);
+        todoItem.appendChild(deleteBtn);
+        listWrapper.appendChild(todoItem);
+
+        doneBtn.addEventListener("click", () => toggleComplete(index));
+        deleteBtn.addEventListener("click", () => deleteTodo(index));
+        todoTitle.addEventListener("dblclick", () =>
+          editTodoTitle(todoTitle, index)
+        );
+      });
+    }
+
+    // Toggle todo completion
+    function toggleComplete(index) {
+      todos[index].completed = !todos[index].completed;
+      renderTodos();
+      if (todos[index].completed) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+    }
+
+    // Delete todo
+    function deleteTodo(index) {
+      todos.splice(index, 1);
+      renderTodos();
+    }
+
+    // Edit todo title & Save the edited todo on blur or when pressing Enter
+    function editTodoTitle(todoTitle, index) {
+      todoTitle.contentEditable = true;
+      todoTitle.focus();
+
+      todoTitle.addEventListener("blur", () => {
+        todoTitle.contentEditable = false;
+        todos[index].title = todoTitle.textContent.trim() || "Untitled";
+        renderTodos();
+      });
+
+      todoTitle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          todoTitle.blur();
+        }
+      });
+    }
+
+    // Add new todo
+    btnAddTodo.addEventListener("click", () => {
+      const inputValue = input.value.trim();
+      if (inputValue) {
+        todos.push({
+          title: inputValue,
+          completed: false,
+        });
+        input.value = "";
+        renderTodos();
+      }
+    });
+
+    renderTodos();
+  </script>
+</html>
