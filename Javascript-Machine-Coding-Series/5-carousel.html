@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carousel</title>
+    <style>
+      body {
+        background-color: rgb(52, 57, 62);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 5rem;
+        gap: 1rem;
+      }
+      #image-container img {
+        max-height: 300px;
+        border-radius: 10px;
+      }
+      #carousel-pages span {
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        margin: 10px;
+        border: 2px solid whitesmoke;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      #carousel-pages .active {
+        background-color: whitesmoke;
+      }
+      button {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        background-color: cornflowerblue;
+        color: white;
+        font-weight: 700;
+        border: none;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+      }
+      button:hover {
+        background-color: rgb(55, 102, 191);
+      }
+      button:active {
+        scale: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="image-container">
+      <img src="" alt="Carousel Image" id="carousel-image" />
+    </div>
+    <div id="carousel-pages"></div>
+    <div>
+      <button id="prev-btn">Prev</button>
+      <button id="next-btn">Next</button>
+    </div>
+  </body>
+  <script>
+    const imageElement = document.getElementById("carousel-image");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const carouselPages = document.getElementById("carousel-pages");
+
+    const images = [
+      "https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/707344/pexels-photo-707344.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/534164/pexels-photo-534164.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/2104152/pexels-photo-2104152.jpeg?auto=compress&cs=tinysrgb&w=600",
+    ];
+
+    let currentIndex = 0;
+
+    // Function to render image based on currentIndex
+    function renderImage() {
+      imageElement.src = images[currentIndex];
+      imageElement.alt = `Carousel Image ${currentIndex + 1}`;
+    }
+
+    // Function to render pagination dots
+    function renderPagination() {
+      carouselPages.innerHTML = ""; // Clear existing dots
+
+      images.forEach((_, index) => {
+        const dot = document.createElement("span");
+        if (index === currentIndex) {
+          dot.classList.add("active");
+        }
+        dot.addEventListener("click", () => goToSlide(index));
+        carouselPages.appendChild(dot);
+      });
+    }
+
+    // Function to navigate to specific slide
+    function goToSlide(index) {
+      currentIndex = index;
+      render();
+    }
+
+    // Function to handle next and prev button click
+    function changeImage(direction) {
+      if (direction === "next") {
+        currentIndex = (currentIndex + 1) % images.length;
+      } else if (direction === "prev") {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+      }
+      render();
+    }
+
+    // Function to update the carousel (image and pagination)
+    function render() {
+      renderImage();
+      renderPagination();
+    }
+
+    // Initialize carousel
+    render();
+
+    // Event listeners for buttons
+    nextBtn.addEventListener("click", () => changeImage("next"));
+    prevBtn.addEventListener("click", () => changeImage("prev"));
+  </script>
+</html>
