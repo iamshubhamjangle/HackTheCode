@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Rating</title>
+    <style>
+      #star-wrapper {
+        display: inline-block;
+      }
+      .star {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .filled {
+        color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <span>Select Rating: </span>
+      <div id="star-wrapper" role="radiogroup" aria-label="Star rating"></div>
+    </div>
+
+    <script>
+      const no_of_stars = 5;
+      let no_of_filled_stars = 1;
+
+      const stars = document.getElementById("star-wrapper");
+
+      // Function to render the stars
+      function renderStars() {
+        stars.innerHTML = ""; // Clear the container
+
+        for (let i = 1; i <= no_of_stars; i++) {
+          const star = document.createElement("span");
+          star.textContent = i <= no_of_filled_stars ? "★" : "☆"; // Filled or empty
+          star.classList.add("star");
+          if (i <= no_of_filled_stars) star.classList.add("filled");
+          // star.classList.toggle("filled", i <= no_of_filled_stars);
+          star.setAttribute("data-index", i);
+          stars.appendChild(star);
+        }
+      }
+
+      // Event delegation to handle click events
+      stars.addEventListener("click", (e) => {
+        // if (e.target.classList.contains("star")) {
+        //   no_of_filled_stars = Number(e.target.getAttribute("data-index"));
+        //   renderStars();
+        // }
+        no_of_filled_stars = +e.target.getAttribute("data-index");
+        renderStars();
+      });
+
+      renderStars(); // Initial render
+    </script>
+  </body>
+</html>
