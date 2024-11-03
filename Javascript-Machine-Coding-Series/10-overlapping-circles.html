@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,100&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        color: white;
+        background-color: rgb(71, 79, 87);
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .circle {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        border: 1px solid slategray;
+        border-radius: 50px;
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Click Anywhere to draw circles</h1>
+  </body>
+  <script>
+    let coords = [];
+    const diameter = 100;
+
+    function findOverlaps(x1, y1) {
+      let overlaps = 0;
+      coords.forEach((item) => {
+        const { x, y } = item;
+
+        const distBetweenTwoCircle = Math.sqrt(
+          Math.pow(x - x1, 2) + Math.pow(y - y1, 2)
+        );
+
+        if (distBetweenTwoCircle < diameter) overlaps++;
+      });
+
+      return overlaps;
+    }
+
+    function drawCircle(e) {
+      const { clientX, clientY } = e;
+
+      const overlaps = findOverlaps(clientX, clientY);
+      coords.push({ x: clientX, y: clientY });
+
+      const ele = document.createElement("div");
+      ele.innerText = overlaps;
+      ele.classList.add("circle");
+      ele.style.position = "absolute";
+      ele.style.top = `calc(${clientY}px - ${diameter / 2}px)`;
+      ele.style.left = `calc(${clientX}px - ${diameter / 2}px)`;
+      ele.style.backgroundColor = `#${Math.trunc(Math.random() * 1000000)}`;
+
+      document.body.appendChild(ele);
+    }
+
+    document.addEventListener("click", drawCircle);
+  </script>
+</html>
