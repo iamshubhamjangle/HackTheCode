@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autocomplete - Multiselect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      #container {
+        max-width: 500px;
+        margin: 1rem auto;
+      }
+
+      #input {
+        padding: 0.5rem;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .options {
+        /* display: none; */
+        height: 200px;
+        overflow-y: auto;
+        background-color: rgb(239, 239, 239);
+      }
+
+      .show {
+        display: block;
+      }
+
+      .option-item {
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .option-item-active {
+        background-color: cornflowerblue;
+      }
+      .option-item-active::before {
+        content: "✓";
+      }
+
+      .option-item:hover {
+        background-color: rgb(114, 162, 250);
+      }
+
+      .selected-options {
+        display: flex;
+        gap: 3px;
+        flex-wrap: wrap;
+        margin: 5px 0;
+      }
+
+      .selected-options-item {
+        background-color: cornflowerblue;
+        border-radius: 10px;
+        padding: 2px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1 style="text-align: center">Autocomplete - Multiselect</h1>
+      <div class="selected-options" id="selected-options"></div>
+      <input id="input" placeholder="Search a pokemon" autocomplete="off" />
+      <div class="options" id="options"></div>
+    </div>
+  </body>
+  <script>
+    class Autocomplete {
+      constructor() {
+        this.selectedOptionsNode = document.getElementById("selected-options");
+        this.inputNode = document.getElementById("input");
+        this.optionsNode = document.getElementById("options");
+
+        this.options = [];
+        this.selectedOptions = new Set();
+
+        this.init();
+        this.registerEventListeners();
+      }
+
+      async init() {
+        await this.fetchPokemons();
+        this.renderOptions();
+      }
+
+      async fetchPokemons() {
+        try {
+          const res = await fetch("https://pokeapi.co/api/v2/pokemon/");
+          const result = await res.json();
+          this.options = result?.results || [];
+        } catch (error) {
+          console.error("Failed to fetch pokemons.");
+        }
+      }
+
+      renderOptions(list = this.options) {
+        this.optionsNode.innerHTML = list
+          .map((item) => {
+            const active = this.selectedOptions.has(item.name)
+              ? "option-item-active"
+              : "";
+            return `<div class="option-item ${active}" data-name="${item.name}">${item.name}</div>`;
+          })
+          .join("");
+      }
+
+      handleOptionClick(e) {
+        const value = e.target.getAttribute("data-name");
+
+        if (this.selectedOptions.has(value)) this.selectedOptions.delete(value);
+        else this.selectedOptions.add(value);
+        this.inputNode.value = "";
+        this.renderSelectedOptions();
+        this.renderOptions();
+      }
+
+      renderSelectedOptions() {
+        this.selectedOptionsNode.innerHTML = Array.from(this.selectedOptions)
+          .map((name) => `<div class="selected-options-item">${name}</div>`)
+          .join("");
+      }
+
+      registerEventListeners() {
+        this.optionsNode.addEventListener("click", (e) =>
+          this.handleOptionClick(e)
+        );
+      }
+    }
+
+    new Autocomplete();
+  </script>
+</html>
