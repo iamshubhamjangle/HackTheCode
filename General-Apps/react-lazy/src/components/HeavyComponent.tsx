@@ -2,7 +2,7 @@ const HeavyComponent = () => {
   const expensiveCalculation = () => {
     let result = 0;
     // for loop: 100 million times
-    for (let i = 0; i < 100000000; i++) {
+    for (let i = 0; i < 10000000; i++) {
       result += Math.sin(i) * Math.cos(i);
     }
     return result;
@@ -17,7 +17,7 @@ const HeavyComponent = () => {
         This component took significant time to render due to heavy
         computational work {computationResult}
       </p>
-      <img className="rounded-md" src="her_3.png" alt="her_1" />
+      <img className="rounded-md" src="her_1.png" alt="her_1" />
     </div>
   );
 };
