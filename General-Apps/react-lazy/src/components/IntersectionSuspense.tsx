@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-interface LazyLoadInViewWrapperProps {
+interface IntersectionSuspenseProps {
   children: React.ReactNode;
   fallback: React.ReactNode;
   threshold?: number;
 }
 
-const LazyLoadInViewWrapper: React.FC<LazyLoadInViewWrapperProps> = ({
+const IntersectionSuspense: React.FC<IntersectionSuspenseProps> = ({
   children,
   fallback,
   threshold = 0.1,
@@ -24,4 +24,4 @@ const LazyLoadInViewWrapper: React.FC<LazyLoadInViewWrapperProps> = ({
   return <div ref={ref}>{hasBeenLoaded || isInView ? children : fallback}</div>;
 };
 
-export default LazyLoadInViewWrapper;
+export default IntersectionSuspense;

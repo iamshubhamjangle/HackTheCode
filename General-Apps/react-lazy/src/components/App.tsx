@@ -1,11 +1,14 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 
 import LightComponent from "./LightComponent";
-import LazyLoadInViewWrapper from "./LazyLoadInViewWrapper";
+// import IntersectionSuspense from "./IntersectionSuspense";
+
+/* Normal Imports */
 // import HeavyComponent from "./HeavyComponent";
 // import HeavyComponent2 from "./HeavyComponent2";
 // import HeavyComponent3 from "./HeavyComponent3";
 
+/** Lazy Imports */
 const HeavyComponent = lazy(() => import("./HeavyComponent"));
 const HeavyComponent2 = lazy(() => import("./HeavyComponent2"));
 const HeavyComponent3 = lazy(() => import("./HeavyComponent3"));
@@ -20,7 +23,7 @@ const App2 = () => {
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <LazyLoadInViewWrapper
+        <Suspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -28,11 +31,11 @@ const App2 = () => {
           }
         >
           <HeavyComponent />
-        </LazyLoadInViewWrapper>
+        </Suspense>
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <LazyLoadInViewWrapper
+        <Suspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -40,11 +43,11 @@ const App2 = () => {
           }
         >
           <HeavyComponent2 />
-        </LazyLoadInViewWrapper>
+        </Suspense>
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <LazyLoadInViewWrapper
+        <Suspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -52,7 +55,7 @@ const App2 = () => {
           }
         >
           <HeavyComponent3 />
-        </LazyLoadInViewWrapper>
+        </Suspense>
       </div>
     </div>
   );
