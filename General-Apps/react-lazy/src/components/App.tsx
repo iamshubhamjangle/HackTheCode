@@ -16,16 +16,17 @@ const App2 = () => {
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <LightComponent />
         <LazyLoadInViewWrapper
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
-              Loading User Stats...
+              Loading Heavy Component 1
             </div>
           }
         >
           <HeavyComponent />
         </LazyLoadInViewWrapper>
+        <LightComponent />
+        <LightComponent />
         <LightComponent />
       </div>
     </div>
