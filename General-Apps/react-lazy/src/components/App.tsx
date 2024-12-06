@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 
 import LightComponent from "./LightComponent";
+import IntersectionSuspense from "./IntersectionSuspense";
 // import IntersectionSuspense from "./IntersectionSuspense";
 
 /* Normal Imports */
@@ -23,7 +24,7 @@ const App2 = () => {
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <Suspense
+        <IntersectionSuspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -31,11 +32,11 @@ const App2 = () => {
           }
         >
           <HeavyComponent />
-        </Suspense>
+        </IntersectionSuspense>
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <Suspense
+        <IntersectionSuspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -43,11 +44,11 @@ const App2 = () => {
           }
         >
           <HeavyComponent2 />
-        </Suspense>
+        </IntersectionSuspense>
         <LightComponent />
         <LightComponent />
         <LightComponent />
-        <Suspense
+        <IntersectionSuspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
               Loading Heavy Component 1
@@ -55,7 +56,7 @@ const App2 = () => {
           }
         >
           <HeavyComponent3 />
-        </Suspense>
+        </IntersectionSuspense>
       </div>
     </div>
   );
