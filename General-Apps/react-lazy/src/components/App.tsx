@@ -39,7 +39,7 @@ const App2 = () => {
         <IntersectionSuspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
-              Loading Heavy Component 1
+              Loading Heavy Component 2
             </div>
           }
         >
@@ -51,7 +51,7 @@ const App2 = () => {
         <IntersectionSuspense
           fallback={
             <div className="h-64 bg-gray-200 animate-pulse p-2">
-              Loading Heavy Component 1
+              Loading Heavy Component 3
             </div>
           }
         >
