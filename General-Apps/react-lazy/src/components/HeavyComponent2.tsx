@@ -6,18 +6,15 @@ const HeavyComponent2 = () => {
   );
 
   useEffect(() => {
-    // Create a new Worker instance
     const worker = new Worker(new URL("./worker.js", import.meta.url));
 
-    worker.postMessage({ type: "expensiveCalculation" }); // Send the task to the worker
+    worker.postMessage({ type: "expensiveCalculation" });
 
-    // Listen for the result from the worker
     worker.onmessage = (e) => {
-      setComputationResult(e.data); // Update the result state
-      worker.terminate(); // Terminate the worker once the task is done
+      setComputationResult(e.data);
+      worker.terminate();
     };
 
-    // Cleanup in case the component unmounts
     return () => worker.terminate();
   }, []);
 
