@@ -37,6 +37,8 @@ const ImageGallery = () => {
   );
 };
 
+export default ImageGallery;
+
 interface ProgressiveImageProps {
   fullSrc: string;
   thumbnailSrc: string;
@@ -80,5 +82,3 @@ const ProgressiveImage: React.FC<ProgressiveImageProps> = ({
     </div>
   );
 };
-
-export default ImageGallery;
